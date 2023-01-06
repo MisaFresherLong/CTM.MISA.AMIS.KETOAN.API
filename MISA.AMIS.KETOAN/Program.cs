@@ -1,4 +1,4 @@
-using MISA.AMIS.KETOAN.BL;
+﻿using MISA.AMIS.KETOAN.BL;
 using MISA.AMIS.KETOAN.Common;
 using MISA.AMIS.KETOAN.DL;
 
@@ -11,6 +11,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Chuyển response body sang pascalCase
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
+
+// Binding interface với class
 builder.Services.AddScoped(typeof(IBaseBL<>), typeof(BaseBL<>));
 builder.Services.AddScoped<IDepartmentBL, DepartmentBL>();
 builder.Services.AddScoped<IEmployeeBL, EmployeeBL>();

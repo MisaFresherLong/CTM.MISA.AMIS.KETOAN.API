@@ -7,9 +7,6 @@ using MySqlConnector;
 
 namespace MISA.AMIS.KETOAN.API.Controllers
 {
-    
-
-    [Route("api/[controller]")]
     [ApiController]
     public class BasesController<T> : ControllerBase
     {
@@ -31,6 +28,27 @@ namespace MISA.AMIS.KETOAN.API.Controllers
         #region Method
 
         /// <summary>
+        /// Lấy tất cả bản ghi 
+        /// </summary>
+        /// <returns>Tất cả bản ghi</returns>
+        /// Created by: PVLONG (26/12/2022)
+        [HttpGet()]
+        public IActionResult GetAllRecords()
+        {
+            try
+            {
+                var record = _baseBL.GetAllRecords();
+
+                // Trả về kết quả cho client
+                return Ok(record);
+            }
+            catch (Exception e)
+            {
+                return HandleException(e);
+            }
+        }
+
+        /// <summary>
         /// Lấy một bản ghi theo ID  
         /// </summary>
         /// <param name="recordID">ID của bản ghi</param>
@@ -49,29 +67,153 @@ namespace MISA.AMIS.KETOAN.API.Controllers
                     // Nếu thất bại trả về lỗi
                     var errorHandler = new ErrorHandler
                     {
-                        ErrorCode = 1,
+                        ErrorCode = ErrorCode.GetDataError,
                         DevMsg = "Get data from database failed.",
                         UserMsg = "Lấy bản ghi thất bại.",
                         MoreInfo = "/errorCode/1",
                         TraceId = HttpContext.TraceIdentifier
                     };
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, errorHandler);
+                    return StatusCode(StatusCodes.Status404NotFound, errorHandler);
                 }
                 // Nếu thành công trả về kết quả cho client
                 return StatusCode(StatusCodes.Status200OK, record);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                var errorHandler = new ErrorHandler();
-                errorHandler.ErrorCode = 1;
-                errorHandler.DevMsg = "Catch an exception.";
-                errorHandler.UserMsg = "Có lỗi xảy ra, vui lòng liên hệ Misa để được hỗ trợ.";
-                errorHandler.MoreInfo = "/errorCode/1";
-                errorHandler.TraceId = HttpContext.TraceIdentifier;
-                return StatusCode(StatusCodes.Status500InternalServerError, errorHandler);
+                return HandleException(e);
             }
+        }
+
+        /// <summary>
+        /// Thêm một bản ghi
+        /// </summary>
+        /// <returns>ID của bản ghi vừa được thêm</returns>
+        /// Created by: PVLONG (26/12/2022)
+        [HttpPost()]
+        public IActionResult InsertRecord([FromBody] T record)
+        {
+            try
+            {
+                var recordID = _baseBL.InsertRecord(record);
+
+                // Xử lý kết quả
+                if (recordID == Guid.Empty)
+                {
+                    // Nếu thất bại trả về lỗi
+                    var errorHandler = new ErrorHandler
+                    {
+                        ErrorCode = ErrorCode.InsertError,
+                        DevMsg = "Insert record failed.",
+                        UserMsg = "Thêm bản ghi thất bại.",
+                        MoreInfo = "/errorCode/1",
+                        TraceId = HttpContext.TraceIdentifier
+                    };
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, errorHandler);
+                }
+
+                // Nếu thành công trả về kết quả cho client
+                return StatusCode(StatusCodes.Status201Created, recordID);
+            }
+            catch (Exception e)
+            {
+                return HandleException(e);
+            }
+        }
+
+        /// <summary>
+        /// Sửa một bản ghi
+        /// </summary>
+        /// <returns>Số dòng đã được sửa</returns>
+        /// Created by: PVLONG (26/12/2022)
+        [HttpPut("{recordID}")]
+        public IActionResult UpdateRecord([FromRoute] Guid recordID, [FromBody] T record)
+        {
+            try
+            {
+                var numberOfEffectedRow = _baseBL.UpdateRecord(recordID, record);
+
+                // Xử lý kết quả
+                if (numberOfEffectedRow == 0)
+                {
+                    // Nếu thất bại trả về lỗi
+                    var errorHandler = new ErrorHandler
+                    {
+                        ErrorCode = ErrorCode.UpdateError,
+                        DevMsg = "Update record failed.",
+                        UserMsg = "Sửa bản ghi thất bại.",
+                        MoreInfo = "/errorCode/1",
+                        TraceId = HttpContext.TraceIdentifier
+                    };
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, errorHandler);
+                }
+
+                // Nếu thành công trả về kết quả cho client
+                return StatusCode(StatusCodes.Status200OK, recordID);
+            }
+            catch (Exception e)
+            {
+                return HandleException(e);
+            }
+        }
+
+        /// <summary>
+        /// Xóa một bản ghi theo ID
+        /// </summary>
+        /// <param name="recordID">ID của bản ghi cần xóa</param>
+        /// <returns>Số dòng đã được xóa</returns>
+        /// Created by: PVLONG (26/12/2022)
+        [HttpDelete("{recordID}")]
+        public IActionResult DeleteRecord([FromRoute] Guid recordID)
+        {
+            try
+            {
+                var numberOfEffectedRow = _baseBL.DeleteRecord(recordID);
+
+                // Xử lý kết quả
+                if (numberOfEffectedRow == 0)
+                {
+                    // Nếu thất bại trả về lỗi
+                    var errorHandler = new ErrorHandler
+                    {
+                        ErrorCode = ErrorCode.DeleteError,
+                        DevMsg = "Delete record failed.",
+                        UserMsg = "Xóa bản ghi thất bại.",
+                        MoreInfo = "/errorCode/1",
+                        TraceId = HttpContext.TraceIdentifier
+                    };
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, errorHandler);
+                }
+
+                // Nếu thành công trả về kết quả cho client
+                return StatusCode(StatusCodes.Status200OK, recordID);
+            }
+            catch (Exception e)
+            {
+                return HandleException(e);
+            }
+        }
+
+        /// <summary>
+        /// Xử lý ngoại lệ
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns>Ngoại lệ đã được xử lý</returns>
+        /// Created by: PVLONG (26/12/2022)
+        protected IActionResult HandleException(Exception exception)
+        {
+            Console.WriteLine(exception.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, new ErrorHandler()
+            {
+                ErrorCode = ErrorCode.Exception,
+                DevMsg = Resource_VN.Exception_DevMsg,
+                UserMsg = Resource_VN.Exception_UserMsg,
+                MoreInfo = exception.Message,
+                TraceId = HttpContext.TraceIdentifier
+            });
         }
 
         #endregion

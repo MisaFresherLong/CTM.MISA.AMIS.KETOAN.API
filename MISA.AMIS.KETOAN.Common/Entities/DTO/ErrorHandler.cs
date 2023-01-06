@@ -5,7 +5,7 @@
         /// <summary>
         /// Mã lỗi
         /// </summary>
-        public int ErrorCode { get; set; }
+        public ErrorCode ErrorCode { get; set; }
 
         /// <summary>
         /// Message dành cho lập trình viên

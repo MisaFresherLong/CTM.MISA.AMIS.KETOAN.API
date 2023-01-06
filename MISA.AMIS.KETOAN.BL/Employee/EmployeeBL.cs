@@ -31,6 +31,11 @@ namespace MISA.AMIS.KETOAN.BL
 
         #region Method
 
+        /// <summary>
+        /// Lấy mã nhân viên mới
+        /// </summary>
+        /// <returns>Mã nhân viên mới</returns>
+        /// Created by: PVLONG (26/12/2022)
         public string GetNewCode()
         {
             return _employeeDL.GetNewCode();

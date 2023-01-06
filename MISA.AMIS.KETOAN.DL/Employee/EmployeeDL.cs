@@ -24,13 +24,13 @@ namespace MISA.AMIS.KETOAN.DL
 
             // Khởi tạo kết nối đến database
             string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            var mySqlConnection = new MySqlConnection(connectionString);
+            using(var mySqlConnection = new MySqlConnection(connectionString))
+            {
+                // Truy vấn database
+                var biggestCode = mySqlConnection.QueryFirstOrDefault<string>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
 
-            // Truy vấn database
-            var biggestCode = mySqlConnection.QueryFirstOrDefault<string>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
-            mySqlConnection.Close();
-
-            return biggestCode;
+                return biggestCode;
+            }
         }
     }
 }
