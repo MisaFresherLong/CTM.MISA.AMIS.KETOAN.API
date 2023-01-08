@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Exception_DevMsg" xml:space="preserve">
-    <value>Catch an exception.</value>
+    <value>Xảy ra ngoại lệ.</value>
   </data>
   <data name="Exception_UserMsg" xml:space="preserve">
     <value>Có lỗi xảy ra, vui lòng liên hệ Misa để được hỗ trợ.</value>

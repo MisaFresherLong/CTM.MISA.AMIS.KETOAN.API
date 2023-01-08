@@ -68,7 +68,7 @@ namespace MISA.AMIS.KETOAN.API.Controllers
                     var errorHandler = new ErrorHandler
                     {
                         ErrorCode = ErrorCode.GetDataError,
-                        DevMsg = "Get data from database failed.",
+                        DevMsg = "Get record from database failed.",
                         UserMsg = "Lấy bản ghi thất bại.",
                         MoreInfo = "/errorCode/1",
                         TraceId = HttpContext.TraceIdentifier
@@ -189,7 +189,7 @@ namespace MISA.AMIS.KETOAN.API.Controllers
                 }
 
                 // Nếu thành công trả về kết quả cho client
-                return StatusCode(StatusCodes.Status200OK, recordID);
+                return StatusCode(StatusCodes.Status200OK, numberOfEffectedRow);
             }
             catch (Exception e)
             {

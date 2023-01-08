@@ -61,7 +61,7 @@ namespace MISA.AMIS.KETOAN.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Catch an exception..
+        ///   Looks up a localized string similar to Xảy ra ngoại lệ..
         /// </summary>
         public static string Exception_DevMsg {
             get {

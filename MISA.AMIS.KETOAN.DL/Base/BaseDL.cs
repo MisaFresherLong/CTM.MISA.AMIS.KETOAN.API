@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MISA.AMIS.KETOAN.Common;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace MISA.AMIS.KETOAN.DL
             string className = typeof(T).Name;
 
             // Chuẩn bị câu lệnh sql
-            string storedProcedure = $"Proc_{className}_GetAll";
+            string storedProcedure = String.Format(StoredProcedure.GetAllRecord, className);
 
             // Khởi tạo kết nối đến database
             string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
@@ -45,7 +46,7 @@ namespace MISA.AMIS.KETOAN.DL
             string className = typeof(T).Name;
 
             // Chuẩn bị câu lệnh sql
-            string storedProcedure = $"Proc_{className}_GetByID";
+            string storedProcedure = String.Format(StoredProcedure.GetRecordByID, className);
 
             // Chuẩn bị dữ liệu đầu vào
             var parameters = new DynamicParameters();
@@ -71,7 +72,7 @@ namespace MISA.AMIS.KETOAN.DL
             string className = typeof(T).Name;
 
             // Chuẩn bị câu lệnh sql
-            string storedProcedure = $"Proc_{className}_Insert";
+            string storedProcedure = String.Format(StoredProcedure.InsertRecord, className);
 
             // Chuẩn bị dữ liệu đầu vào
             var parameters = PrepareInsertParameter(record);
@@ -99,7 +100,7 @@ namespace MISA.AMIS.KETOAN.DL
             string className = typeof(T).Name;
 
             // Chuẩn bị câu lệnh sql
-            string storedProcedure = $"Proc_{className}_Update";
+            string storedProcedure = String.Format(StoredProcedure.UpdateRecord, className);
 
             // Chuẩn bị dữ liệu đầu vào
             var parameters = PrepareInsertParameter(record);
@@ -127,7 +128,7 @@ namespace MISA.AMIS.KETOAN.DL
             string className = typeof(T).Name;
 
             // Chuẩn bị câu lệnh sql
-            string storedProcedure = $"Proc_{className}_DeleteByID";
+            string storedProcedure = String.Format(StoredProcedure.DeleteRecord, className);
 
             // Chuẩn bị dữ liệu đầu vào
             var parameters = new DynamicParameters();

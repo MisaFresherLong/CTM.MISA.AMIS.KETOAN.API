@@ -11,36 +11,36 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// Ngoại lệ
         /// </summary>
-        Exception = 10,
+        Exception = 1,
 
         /// <summary>
         /// Kết nối database lỗi
         /// </summary>
-        DatabaseConnectError = 20,
+        DatabaseConnectError = 2,
 
         /// <summary>
         /// Lấy dữ liệu lỗi
         /// </summary>
-        GetDataError = 30,
+        GetDataError = 3,
 
         /// <summary>
         /// Validate dữ liệu lỗi
         /// </summary>
-        ValidateError = 40,
+        ValidateError = 4,
 
         /// <summary>
         /// Thêm bản ghi lỗi
         /// </summary>
-        InsertError = 50,
+        InsertError = 5,
 
         /// <summary>
         /// Sửa bản ghi lỗi
         /// </summary>
-        UpdateError = 60,
+        UpdateError = 6,
 
         /// <summary>
         /// Xóa bản ghi lỗi
         /// </summary>
-        DeleteError = 70
+        DeleteError = 7
     }
 }
