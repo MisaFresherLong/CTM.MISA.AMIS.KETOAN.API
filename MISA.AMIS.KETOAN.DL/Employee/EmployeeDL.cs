@@ -34,10 +34,11 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add("@EmployeeCode", employeeCode);
 
             // Khởi tạo kết nối đến database
-            using (_connectionLayer)
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
             {
                 // Truy vấn database
-                var employee = _connectionLayer.QueryFirstOrDefault<Employee>(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var employee = _connectionLayer.QueryFirstOrDefault<Employee>(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return employee;
             }
@@ -56,10 +57,11 @@ namespace MISA.AMIS.KETOAN.DL
             string storedProcedure = String.Format(StoredProcedure.GetBiggestCode, className);
 
             // Khởi tạo kết nối đến database
-            using (_connectionLayer)
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
             {
                 // Truy vấn database
-                var biggestCode = _connectionLayer.QueryFirstOrDefault<string>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
+                var biggestCode = _connectionLayer.QueryFirstOrDefault<string>(connection, storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
 
                 return biggestCode;
             }
@@ -90,10 +92,11 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add("@Offset", offset);
 
             // Khởi tạo kết nối đến database
-            using (_connectionLayer)
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
             {
                 // Truy vấn database
-                var reader = _connectionLayer.QueryMultiple(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var reader = _connectionLayer.QueryMultiple(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return new Pagingnation<Employee>()
                 {

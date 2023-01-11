@@ -15,36 +15,20 @@ namespace MISA.AMIS.KETOAN.DL
 {
     public class MySqlConnectionLayer : IConnectionLayer
     {
-        #region Field
-
         private IDbConnection _connection = null;
-
-        #endregion
-
-        #region Constructor
-
-        public MySqlConnectionLayer(string connectionString = null)
-        {
-            if(connectionString == null)
-            {
-                connectionString = DatabaseContext.ConnectionString;
-                _connection = new MySqlConnection(connectionString);
-            }
-            else _connection = new MySqlConnection(connectionString);
-        }
-
-        #endregion
 
         #region Method
 
         /// <summary>
-        /// Hàm lấy connection hiện tại
-        /// <returns>Connection hiện tại</returns>
-        /// Created by: PVLONG (10/01/2023)
+        /// Hàm khởi tạo kết nối database
         /// </summary>
-        public IDbConnection Connection
+        /// <param name="connectionString"></param>
+        /// <returns>Kết nối database</returns>
+        /// Created by: PVLONG (10/01/2023)
+        public IDbConnection InitConnection(string connectionString) 
         {
-            get { return _connection; }
+            _connection = new MySqlConnection(connectionString);
+            return _connection;
         }
 
         /// <summary>
@@ -70,9 +54,9 @@ namespace MISA.AMIS.KETOAN.DL
         /// <param name="commandType">Kiểu câu lệnh</param>
         /// <returns>Số bản ghi bị ảnh hưởng</returns>
         /// Created by: PVLONG (10/01/2023)
-        public int Execute(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
+        public int Execute(IDbConnection dbConnection, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _connection.Execute(sql, param, transaction, commandTimeout, commandType);
+            return dbConnection.Execute(sql, param, transaction, commandTimeout, commandType);
         }
 
         /// <summary>
@@ -85,9 +69,9 @@ namespace MISA.AMIS.KETOAN.DL
         /// <param name="commandType">Kiểu câu lệnh</param>
         /// <returns>Đối tượng được truy vấn</returns>
         /// Created by: PVLONG (10/01/2023)
-        public IEnumerable<T> Query<T>(string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null)
+        public IEnumerable<T> Query<T>(IDbConnection dbConnection, string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _connection.Query<T>(sql, param, transaction, buffered, commandTimeout, commandType);
+            return dbConnection.Query<T>(sql, param, transaction, buffered, commandTimeout, commandType);
         }
 
         /// <summary>
@@ -100,9 +84,10 @@ namespace MISA.AMIS.KETOAN.DL
         /// <param name="commandType">Kiểu câu lệnh</param>
         /// <returns>Đối tượng được truy vấn</returns>
         /// Created by: PVLONG (10/01/2023)
-        public T QueryFirstOrDefault<T>(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
+        public T QueryFirstOrDefault<T>(IDbConnection dbConnection, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _connection.QueryFirstOrDefault<T>(sql, param, transaction, commandTimeout, commandType);
+            // throw new Exception();
+            return dbConnection.QueryFirstOrDefault<T>(sql, param, transaction, commandTimeout, commandType);
         }
 
         /// <summary>
@@ -115,9 +100,9 @@ namespace MISA.AMIS.KETOAN.DL
         /// <param name="commandType">Kiểu câu lệnh</param>
         /// <returns>GridReader của kết quả truy vấn</returns>
         /// Created by: PVLONG (10/01/2023)
-        public GridReader QueryMultiple(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
+        public GridReader QueryMultiple(IDbConnection dbConnection, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _connection.QueryMultiple(sql, param, transaction, commandTimeout, commandType);
+            return dbConnection.QueryMultiple(sql, param, transaction, commandTimeout, commandType);
         }
 
         #endregion
@@ -126,8 +111,7 @@ namespace MISA.AMIS.KETOAN.DL
 
         ~MySqlConnectionLayer()
         {
-            Console.WriteLine("Destructor");
-            Dispose();
+
         }
 
         #endregion

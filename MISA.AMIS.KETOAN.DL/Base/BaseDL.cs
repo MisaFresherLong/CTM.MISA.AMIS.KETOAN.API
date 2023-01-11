@@ -42,10 +42,11 @@ namespace MISA.AMIS.KETOAN.DL
             string storedProcedure = String.Format(StoredProcedure.GetAllRecord, className);
 
             // Khởi tạo kết nối đến database
-            using (_connectionLayer)
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
             {
                 // Truy vấn database
-                var record = _connectionLayer.Query<T>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
+                var record = _connectionLayer.Query<T>(connection, storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
 
                 return record;
             }
@@ -69,10 +70,11 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add($"@{className}ID", recordID);
 
             // Khởi tạo kết nối đến database
-            using(_connectionLayer)
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
             {
                 // Truy vấn database
-                var record = _connectionLayer.QueryFirstOrDefault<T>(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var record = _connectionLayer.QueryFirstOrDefault<T>(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return record;
             }
@@ -96,10 +98,11 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add($"@{className}ID", recordID);
 
             // Khởi tạo kết nối đến database
-            using (_connectionLayer)
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
             {
                 // Truy vấn database
-                var effectedRow = _connectionLayer.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var effectedRow = _connectionLayer.Execute(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return recordID;
             }
@@ -122,10 +125,11 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add($"@{className}ID", recordID);
 
             // Khởi tạo kết nối đến database
-            using (_connectionLayer)
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
             {
                 // Truy vấn database
-                var numberOfEffectedRow = _connectionLayer.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var numberOfEffectedRow = _connectionLayer.Execute(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return numberOfEffectedRow;
             }
@@ -149,10 +153,11 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add($"@{className}ID", recordID);
 
             // Khởi tạo kết nối đến database
-            using (_connectionLayer)
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
             {
                 // Truy vấn database
-                var numberOfEffectedRow = _connectionLayer.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var numberOfEffectedRow = _connectionLayer.Execute(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return numberOfEffectedRow;
             }
