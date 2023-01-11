@@ -1,6 +1,6 @@
 ﻿namespace MISA.AMIS.KETOAN.Common
 {
-    public class Department
+    public class Department : BaseEntity
     {
         /// <summary>
         /// ID đơn vị
@@ -16,25 +16,5 @@
         /// Tên đơn vị
         /// </summary>
         public string DepartmentName { get; set; }
-
-        /// <summary>
-        /// Ngày tạo
-        /// </summary>
-        public DateTime? CreatedDate { get; set; }
-
-        /// <summary>
-        /// Người tạo
-        /// </summary>
-        public string? CreatedBy { get; set; }
-
-        /// <summary>
-        /// Ngày sửa
-        /// </summary>
-        public DateTime? ModifiedDate { get; set; }
-
-        /// <summary>
-        /// Người sửa
-        /// </summary>
-        public string? ModifieddBy { get; set; }
     }
 }

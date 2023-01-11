@@ -117,10 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DeleteBatchEmployeeError_DevMsg" xml:space="preserve">
+    <value>Delete batch employee failed.</value>
+  </data>
+  <data name="DeleteBatchEmployeeError_UserMsg" xml:space="preserve">
+    <value>Xóa nhiều nhân viên thất bại.</value>
+  </data>
+  <data name="DeleteError_DevMsg" xml:space="preserve">
+    <value>Delete record failed.</value>
+  </data>
+  <data name="DeleteError_UserMsg" xml:space="preserve">
+    <value>Xóa bản ghi thất bại.</value>
+  </data>
   <data name="Exception_DevMsg" xml:space="preserve">
     <value>Xảy ra ngoại lệ.</value>
   </data>
   <data name="Exception_UserMsg" xml:space="preserve">
     <value>Có lỗi xảy ra, vui lòng liên hệ Misa để được hỗ trợ.</value>
+  </data>
+  <data name="GetDataError_DevMsg" xml:space="preserve">
+    <value>Get record from database failed.</value>
+  </data>
+  <data name="GetDataError_UserMsg" xml:space="preserve">
+    <value>Lấy bản ghi thất bại.</value>
+  </data>
+  <data name="GetNewEmployeeCodeError_DevMsg" xml:space="preserve">
+    <value>Get new employee code failed.</value>
+  </data>
+  <data name="GetNewEmployeeCodeError_UserMsg" xml:space="preserve">
+    <value>Lấy mã nhân viên mới thất bại.</value>
+  </data>
+  <data name="InsertError_DevMsg" xml:space="preserve">
+    <value>Insert record failed.</value>
+  </data>
+  <data name="InsertError_UserMsg" xml:space="preserve">
+    <value>Thêm bản ghi thất bại.</value>
+  </data>
+  <data name="MoreInfoMsg" xml:space="preserve">
+    <value>http://open.api/error-code/</value>
+  </data>
+  <data name="UpdateError_DevMsg" xml:space="preserve">
+    <value>Update record failed.</value>
+  </data>
+  <data name="UpdateError_UserMsg" xml:space="preserve">
+    <value>Sửa bản ghi thất bại.</value>
   </data>
 </root>

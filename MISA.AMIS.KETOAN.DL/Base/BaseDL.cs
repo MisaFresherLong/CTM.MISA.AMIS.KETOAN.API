@@ -12,6 +12,23 @@ namespace MISA.AMIS.KETOAN.DL
 {
     public class BaseDL<T> : IBaseDL<T>
     {
+        #region Field
+
+        protected IConnectionLayer _connectionLayer;
+
+        #endregion
+
+        #region Constructor
+
+        public BaseDL(IConnectionLayer connectionLayer)
+        {
+            _connectionLayer = connectionLayer;
+        }
+
+        #endregion
+
+        #region Method
+
         /// <summary>
         /// Lấy tất cả bản ghi 
         /// </summary>
@@ -25,11 +42,10 @@ namespace MISA.AMIS.KETOAN.DL
             string storedProcedure = String.Format(StoredProcedure.GetAllRecord, className);
 
             // Khởi tạo kết nối đến database
-            string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (_connectionLayer)
             {
                 // Truy vấn database
-                var record = mySqlConnection.Query<T>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
+                var record = _connectionLayer.Query<T>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
 
                 return record;
             }
@@ -53,13 +69,13 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add($"@{className}ID", recordID);
 
             // Khởi tạo kết nối đến database
-            string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            var mySqlConnection = new MySqlConnection(connectionString);
+            using(_connectionLayer)
+            {
+                // Truy vấn database
+                var record = _connectionLayer.QueryFirstOrDefault<T>(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
-            // Truy vấn database
-            var record = mySqlConnection.QueryFirstOrDefault<T>(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
-
-            return record;
+                return record;
+            }
         }
 
         /// <summary>
@@ -80,11 +96,10 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add($"@{className}ID", recordID);
 
             // Khởi tạo kết nối đến database
-            string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (_connectionLayer)
             {
                 // Truy vấn database
-                var effectedRow = mySqlConnection.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var effectedRow = _connectionLayer.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return recordID;
             }
@@ -107,11 +122,10 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add($"@{className}ID", recordID);
 
             // Khởi tạo kết nối đến database
-            string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (_connectionLayer)
             {
                 // Truy vấn database
-                var numberOfEffectedRow = mySqlConnection.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var numberOfEffectedRow = _connectionLayer.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return numberOfEffectedRow;
             }
@@ -135,11 +149,10 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add($"@{className}ID", recordID);
 
             // Khởi tạo kết nối đến database
-            string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (_connectionLayer)
             {
                 // Truy vấn database
-                var numberOfEffectedRow = mySqlConnection.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var numberOfEffectedRow = _connectionLayer.Execute(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return numberOfEffectedRow;
             }
@@ -164,5 +177,7 @@ namespace MISA.AMIS.KETOAN.DL
             }
             return parameters;
         }
+
+        #endregion
     }
 }

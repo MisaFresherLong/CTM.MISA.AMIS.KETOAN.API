@@ -12,6 +12,8 @@ namespace MISA.AMIS.KETOAN.DL
 {
     public class DepartmentDL : BaseDL<Department>, IDepartmentDL
     {
-
+        public DepartmentDL(IConnectionLayer connectionLayer) : base(connectionLayer)
+        {
+        }
     }
 }

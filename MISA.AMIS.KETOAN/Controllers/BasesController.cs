@@ -68,9 +68,9 @@ namespace MISA.AMIS.KETOAN.API.Controllers
                     var errorHandler = new ErrorHandler
                     {
                         ErrorCode = ErrorCode.GetDataError,
-                        DevMsg = "Get record from database failed.",
-                        UserMsg = "Lấy bản ghi thất bại.",
-                        MoreInfo = "/errorCode/1",
+                        DevMsg = Resource.GetDataError_DevMsg,
+                        UserMsg = Resource.GetDataError_UserMsg,
+                        MoreInfo = GetMoreInfoMsg(ErrorCode.GetDataError),
                         TraceId = HttpContext.TraceIdentifier
                     };
 
@@ -104,9 +104,9 @@ namespace MISA.AMIS.KETOAN.API.Controllers
                     var errorHandler = new ErrorHandler
                     {
                         ErrorCode = ErrorCode.InsertError,
-                        DevMsg = "Insert record failed.",
-                        UserMsg = "Thêm bản ghi thất bại.",
-                        MoreInfo = "/errorCode/1",
+                        DevMsg = Resource.InsertError_DevMsg,
+                        UserMsg = Resource.InsertError_UserMsg,
+                        MoreInfo = GetMoreInfoMsg(ErrorCode.InsertError),
                         TraceId = HttpContext.TraceIdentifier
                     };
 
@@ -141,9 +141,9 @@ namespace MISA.AMIS.KETOAN.API.Controllers
                     var errorHandler = new ErrorHandler
                     {
                         ErrorCode = ErrorCode.UpdateError,
-                        DevMsg = "Update record failed.",
-                        UserMsg = "Sửa bản ghi thất bại.",
-                        MoreInfo = "/errorCode/1",
+                        DevMsg = Resource.UpdateError_DevMsg,
+                        UserMsg = Resource.UpdateError_UserMsg,
+                        MoreInfo = GetMoreInfoMsg(ErrorCode.UpdateError),
                         TraceId = HttpContext.TraceIdentifier
                     };
 
@@ -179,9 +179,9 @@ namespace MISA.AMIS.KETOAN.API.Controllers
                     var errorHandler = new ErrorHandler
                     {
                         ErrorCode = ErrorCode.DeleteError,
-                        DevMsg = "Delete record failed.",
-                        UserMsg = "Xóa bản ghi thất bại.",
-                        MoreInfo = "/errorCode/1",
+                        DevMsg = Resource.DeleteError_DevMsg,
+                        UserMsg = Resource.DeleteError_UserMsg,
+                        MoreInfo = GetMoreInfoMsg(ErrorCode.DeleteError),
                         TraceId = HttpContext.TraceIdentifier
                     };
 
@@ -209,11 +209,23 @@ namespace MISA.AMIS.KETOAN.API.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, new ErrorHandler()
             {
                 ErrorCode = ErrorCode.Exception,
-                DevMsg = Resource_VN.Exception_DevMsg,
-                UserMsg = Resource_VN.Exception_UserMsg,
+                DevMsg = Resource.Exception_DevMsg,
+                UserMsg = Resource.Exception_UserMsg,
+                // MoreInfo = GetMoreInfoMsg(ErrorCode.Exception),
                 MoreInfo = exception.Message,
                 TraceId = HttpContext.TraceIdentifier
             });
+        }
+
+        /// <summary>
+        /// Hàm lấy tin nhắn MoreInfo
+        /// </summary>
+        /// <param name="errorCode">mã lỗi</param>
+        /// <returns>Tin nhắn MoreInfo</returns>
+        /// Created by: PVLONG (26/12/2022)
+        protected String GetMoreInfoMsg(ErrorCode errorCode)
+        {
+            return String.Concat(Resource.MoreInfoMsg, (int)errorCode);
         }
 
         #endregion

@@ -13,6 +13,10 @@ namespace MISA.AMIS.KETOAN.DL
 {
     public class EmployeeDL : BaseDL<Employee>, IEmployeeDL
     {
+        public EmployeeDL(IConnectionLayer connectionLayer) : base(connectionLayer)
+        {
+        }
+
         /// <summary>
         /// Lấy nhân viên theo mã
         /// </summary>
@@ -30,11 +34,10 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add("@EmployeeCode", employeeCode);
 
             // Khởi tạo kết nối đến database
-            string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (_connectionLayer)
             {
                 // Truy vấn database
-                var employee = mySqlConnection.QueryFirstOrDefault<Employee>(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var employee = _connectionLayer.QueryFirstOrDefault<Employee>(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return employee;
             }
@@ -53,11 +56,10 @@ namespace MISA.AMIS.KETOAN.DL
             string storedProcedure = String.Format(StoredProcedure.GetBiggestCode, className);
 
             // Khởi tạo kết nối đến database
-            string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (_connectionLayer)
             {
                 // Truy vấn database
-                var biggestCode = mySqlConnection.QueryFirstOrDefault<string>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
+                var biggestCode = _connectionLayer.QueryFirstOrDefault<string>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
 
                 return biggestCode;
             }
@@ -88,11 +90,10 @@ namespace MISA.AMIS.KETOAN.DL
             parameters.Add("@Offset", offset);
 
             // Khởi tạo kết nối đến database
-            string connectionString = "Server=localhost;Port=3305;Database=misa.web11.ctm.pvlong;Uid=root;Pwd=Gnolneih;";
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (_connectionLayer)
             {
                 // Truy vấn database
-                var reader = mySqlConnection.QueryMultiple(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var reader = _connectionLayer.QueryMultiple(storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 return new Pagingnation<Employee>()
                 {

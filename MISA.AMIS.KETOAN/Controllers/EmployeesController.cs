@@ -79,10 +79,11 @@ namespace MISA.AMIS.KETOAN.Controllers
                     // Nếu thất bại trả về lỗi
                     var errorHandler = new ErrorHandler();
                     errorHandler.ErrorCode = ErrorCode.GetDataError;
-                    errorHandler.DevMsg = "Get data from database failed.";
-                    errorHandler.UserMsg = "Lấy mã nhân viên mới thất bại.";
-                    errorHandler.MoreInfo = "/errorCode/1";
+                    errorHandler.DevMsg = Resource.GetNewEmployeeCodeError_DevMsg;
+                    errorHandler.UserMsg = Resource.GetNewEmployeeCodeError_UserMsg;
+                    errorHandler.MoreInfo = GetMoreInfoMsg(ErrorCode.GetDataError);
                     errorHandler.TraceId = HttpContext.TraceIdentifier;
+
                     return StatusCode(StatusCodes.Status500InternalServerError, errorHandler);
                 }
                 // Nếu thành công trả về kết quả cho client
@@ -114,9 +115,9 @@ namespace MISA.AMIS.KETOAN.Controllers
                     var errorHandler = new ErrorHandler
                     {
                         ErrorCode = ErrorCode.DeleteError,
-                        DevMsg = "Delete record failed.",
-                        UserMsg = "Xóa bản ghi thất bại.",
-                        MoreInfo = "/errorCode/1",
+                        DevMsg = Resource.DeleteBatchEmployeeError_DevMsg,
+                        UserMsg = Resource.DeleteBatchEmployeeError_UserMsg,
+                        MoreInfo = GetMoreInfoMsg(ErrorCode.DeleteError),
                         TraceId = HttpContext.TraceIdentifier
                     };
 

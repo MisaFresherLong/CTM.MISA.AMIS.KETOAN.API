@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace MISA.AMIS.KETOAN.Common
 {
-    public class Employee
+    public class Employee : BaseEntity
     {
         /// <summary>
         /// ID nhân viên
@@ -92,25 +92,5 @@ namespace MISA.AMIS.KETOAN.Common
         /// Chi nhánh ngân hàng
         /// </summary>
         public string BankBranch { get; set; }
-
-        /// <summary>
-        /// Ngày tạo
-        /// </summary>
-        public DateTime? CreatedDate { get; set; }
-
-        /// <summary>
-        /// Người tạo
-        /// </summary>
-        public string? CreatedBy { get; set; }
-
-        /// <summary>
-        /// Ngày sửa
-        /// </summary>
-        public DateTime? ModifiedDate { get; set; }
-
-        /// <summary>
-        /// Người sửa
-        /// </summary>
-        public string? ModifiedBy { get; set; }
     }
 }
