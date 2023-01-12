@@ -194,5 +194,23 @@ namespace MISA.AMIS.KETOAN.Common {
                 return ResourceManager.GetString("UpdateError_UserMsg", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input data validation error..
+        /// </summary>
+        public static string ValidateError_DevMsg {
+            get {
+                return ResourceManager.GetString("ValidateError_DevMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dữ liệu đầu vào không hợp lệ..
+        /// </summary>
+        public static string ValidateError_UserMsg {
+            get {
+                return ResourceManager.GetString("ValidateError_UserMsg", resourceCulture);
+            }
+        }
     }
 }

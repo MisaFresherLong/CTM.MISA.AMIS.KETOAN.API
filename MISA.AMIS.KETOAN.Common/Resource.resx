@@ -162,4 +162,10 @@
   <data name="UpdateError_UserMsg" xml:space="preserve">
     <value>Sửa bản ghi thất bại.</value>
   </data>
+  <data name="ValidateError_DevMsg" xml:space="preserve">
+    <value>Input data validation error.</value>
+  </data>
+  <data name="ValidateError_UserMsg" xml:space="preserve">
+    <value>Dữ liệu đầu vào không hợp lệ.</value>
+  </data>
 </root>

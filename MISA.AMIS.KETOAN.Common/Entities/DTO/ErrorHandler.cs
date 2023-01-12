@@ -20,7 +20,7 @@
         /// <summary>
         /// Thông tin thêm về lỗi
         /// </summary>
-        public string MoreInfo { get; set; }
+        public object MoreInfo { get; set; }
 
         /// <summary>
         /// Mã truy tìm

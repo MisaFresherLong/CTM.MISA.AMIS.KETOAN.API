@@ -13,13 +13,13 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// Mã nhân viên
         /// </summary>
-        [RegularExpression("(NV[0-9])\\w+")]
+        [RegularExpression("(NV[0-9])\\w+", ErrorMessage = "EmployeeCode phải đúng định dạng 'NV_Chữ số'.")]
         public string EmployeeCode { get; set; }
 
         /// <summary>
         /// Tên nhân viên
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "EmployeeName không được bỏ trống.")]
         public string EmployeeName { get; set; }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// ID đơn vị
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "DepartmentID không được bỏ trống.")]
         public Guid DepartmentID { get; set; }
 
         /// <summary>
@@ -76,6 +76,7 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// Thư điện tử
         /// </summary>
+        [EmailAddress(ErrorMessage = "Email phải đúng định dạng.")]
         public string Email { get; set; }
 
         /// <summary>

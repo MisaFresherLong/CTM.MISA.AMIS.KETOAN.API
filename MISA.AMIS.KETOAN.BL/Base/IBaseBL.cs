@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MISA.AMIS.KETOAN.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace MISA.AMIS.KETOAN.BL
         /// </summary>
         /// <returns>ID của bản ghi vừa được thêm</returns>
         /// Created by: PVLONG (26/12/2022)
-        public Guid InsertRecord(T record);
+        public ServiceResponse InsertRecord(T record);
 
         /// <summary>
         /// Sửa một bản ghi

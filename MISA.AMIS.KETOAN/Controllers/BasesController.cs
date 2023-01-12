@@ -95,26 +95,44 @@ namespace MISA.AMIS.KETOAN.API.Controllers
         {
             try
             {
-                var recordID = _baseBL.InsertRecord(record);
+                var serviceResponse = _baseBL.InsertRecord(record);
+                ErrorHandler errorHandler;
 
-                // Xử lý kết quả
-                if (recordID == Guid.Empty)
+                // Kiểm tra các trạng thái của service
+                switch (serviceResponse.Status)
                 {
-                    // Nếu thất bại trả về lỗi
-                    var errorHandler = new ErrorHandler
-                    {
-                        ErrorCode = ErrorCode.InsertError,
-                        DevMsg = Resource.InsertError_DevMsg,
-                        UserMsg = Resource.InsertError_UserMsg,
-                        MoreInfo = GetMoreInfoMsg(ErrorCode.InsertError),
-                        TraceId = HttpContext.TraceIdentifier
-                    };
+                    case ServiceResponseStatus.InputDataInvalid:
+                        // Nếu dữ liệu đầu vào không hợp lệ trả về lỗi
+                        errorHandler = new ErrorHandler
+                        {
+                            ErrorCode = ErrorCode.ValidateError,
+                            DevMsg = Resource.ValidateError_DevMsg,
+                            UserMsg = Resource.ValidateError_UserMsg,
+                            MoreInfo = serviceResponse.Data,
+                            TraceId = HttpContext.TraceIdentifier
+                        };
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, errorHandler);
+                        return StatusCode(StatusCodes.Status400BadRequest, errorHandler);
+                        break;
+                    case ServiceResponseStatus.Done:
+                        // Nếu thành công trả về kết quả cho client
+                        return StatusCode(StatusCodes.Status201Created, serviceResponse.Data);
+                        break;
+                    default:
+                        // Nếu thất bại trả về lỗi
+                        errorHandler = new ErrorHandler
+                        {
+                            ErrorCode = ErrorCode.InsertError,
+                            DevMsg = Resource.InsertError_DevMsg,
+                            UserMsg = Resource.InsertError_UserMsg,
+                            MoreInfo = GetMoreInfoMsg(ErrorCode.InsertError),
+                            TraceId = HttpContext.TraceIdentifier
+                        };
+
+                        return StatusCode(StatusCodes.Status500InternalServerError, errorHandler);
+                        break;
                 }
 
-                // Nếu thành công trả về kết quả cho client
-                return StatusCode(StatusCodes.Status201Created, recordID);
             }
             catch (Exception e)
             {

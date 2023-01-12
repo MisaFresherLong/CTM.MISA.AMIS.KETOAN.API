@@ -1,4 +1,5 @@
-﻿using MISA.AMIS.KETOAN.BL;
+﻿using Microsoft.AspNetCore.Mvc;
+using MISA.AMIS.KETOAN.BL;
 using MISA.AMIS.KETOAN.Common;
 using MISA.AMIS.KETOAN.DL;
 using System.Xml.Linq;
@@ -33,6 +34,12 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
+
+// Tắt validate mặc định của model state
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 // Binding interface với class
 builder.Services.AddScoped(typeof(IBaseBL<>), typeof(BaseBL<>));
