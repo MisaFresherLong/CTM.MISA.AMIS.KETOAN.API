@@ -17,6 +17,14 @@ namespace MISA.AMIS.KETOAN.BL
         public IEnumerable<T> GetAllRecords();
 
         /// <summary>
+        /// Lọc bản ghi theo các tiêu chí
+        /// </summary>
+        /// <param name="filterKey">Các từ khóa cần lọc</param>
+        /// <returns>Danh bản ghi đã được phân trang</returns
+        /// Created by: PVLONG (26/12/2022)
+        public PagingnationResponse<T> GetFilterRecords(FilterKey filterKey);
+
+        /// <summary>
         /// Lấy một bản ghi theo ID
         /// </summary>
         /// <param name="recordID"></param>
@@ -36,7 +44,7 @@ namespace MISA.AMIS.KETOAN.BL
         /// </summary>
         /// <returns>Số dòng đã được sửa</returns>
         /// Created by: PVLONG (26/12/2022)
-        public int UpdateRecord(Guid recordID, T record);
+        public ServiceResponse UpdateRecord(Guid recordID, T record);
 
         /// <summary>
         /// Xóa một bản ghi theo ID

@@ -31,36 +31,6 @@ namespace MISA.AMIS.KETOAN.Controllers
         #region Method
 
         /// <summary>
-        /// Lọc nhân viên theo các tiêu chí
-        /// </summary>
-        /// <param name="keyword">Từ khóa cần lọc</param>
-        /// <param name="departmentID">Phòng ban cần lọc</param>
-        /// <param name="limit">Số bản ghi cần lấy</param>
-        /// <param name="offset">Nơi bắt đầu lấy</param>
-        /// <returns>Danh sách nhân viên đã được phân trang</returns>
-        [HttpGet("filter")]
-        public IActionResult GetFilterEmployees(
-            [FromQuery] string? keyword,
-            [FromQuery] int limit = 10,
-            [FromQuery] int offset = 0
-            )
-        {
-            try
-            {
-                // Truy vấn bussiness layer
-                var pagingnationEmployees = _employeeBL.GetFilterEmployees(keyword, limit, offset);
-
-                // Trả về kết quả cho client
-                return StatusCode(StatusCodes.Status200OK, pagingnationEmployees);
-
-            }
-            catch (Exception e)
-            {
-                return HandleException(e);
-            }
-        }
-
-        /// <summary>
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns>Mã nhân viên mới</returns>

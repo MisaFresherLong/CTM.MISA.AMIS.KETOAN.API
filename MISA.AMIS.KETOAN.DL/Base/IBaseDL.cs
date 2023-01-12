@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MISA.AMIS.KETOAN.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,12 +17,27 @@ namespace MISA.AMIS.KETOAN.DL
         public IEnumerable<T> GetAllRecords();
 
         /// <summary>
+        /// Lọc bản ghi theo các tiêu chí
+        /// </summary>
+        /// <param name="filterKey">Các từ khóa cần lọc</param>
+        /// <returns>Danh bản ghi đã được phân trang</returns
+        /// Created by: PVLONG (26/12/2022)
+        public PagingnationResponse<T> GetFilterRecords(FilterKey filterKey);
+
+        /// <summary>
         /// Lấy một bản ghi theo ID
         /// </summary>
         /// <param name="recordID"></param>
         /// <returns>Bản ghi cần lấy</returns>
         /// Created by: PVLONG (26/12/2022)
         public T GetRecordByID(Guid recordID);
+
+        /// <summary>
+        /// Lấy bản ghi theo mã Code
+        /// </summary>
+        /// <returns>Bản ghi cần lấy</returns>
+        /// Created by: PVLONG (26/12/2022)
+        public T GetRecordByCode(String recordCode);
 
         /// <summary>
         /// Thêm một bản ghi

@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace MISA.AMIS.KETOAN.Common
 {
-    public class Pagingnation<T>
+    public class FilterKey
     {
         /// <summary>
-        /// Tổng số trang
+        /// Từ khóa cần tìm kiếm
         /// </summary>
-        public int TotalPage { get; set; }
+        public string? keyword { get; set; }
 
         /// <summary>
-        /// Tổng số bản ghi
+        /// Số bản ghi cần lấy
         /// </summary>
-        public int TotalRecord { get; set; }
+        public int limit { get; set; }
 
         /// <summary>
-        /// Danh sách bản ghi cần lấy
+        /// Vị trí bắt đầu lấy
         /// </summary>
-        public IList<T> Data { get; set; }
+        public int offset { get; set; }
     }
 }

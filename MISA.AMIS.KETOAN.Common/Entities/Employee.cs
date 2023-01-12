@@ -13,7 +13,7 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// Mã nhân viên
         /// </summary>
-        [RegularExpression("(NV[0-9])\\w+", ErrorMessage = "EmployeeCode phải đúng định dạng 'NV_Chữ số'.")]
+        [Required(ErrorMessage = "EmployeeCode không được bỏ trống")]
         public string EmployeeCode { get; set; }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// Giới tính
         /// </summary>
-        public int Gender { get; set; }
+        public Gender Gender { get; set; }
 
         /// <summary>
         /// ID đơn vị

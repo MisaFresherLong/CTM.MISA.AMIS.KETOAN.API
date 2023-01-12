@@ -129,6 +129,12 @@
   <data name="DeleteError_UserMsg" xml:space="preserve">
     <value>Xóa bản ghi thất bại.</value>
   </data>
+  <data name="DuplicateCode_DevMsg" xml:space="preserve">
+    <value>Code {0} is existed.</value>
+  </data>
+  <data name="DuplicateCode_UserMsg" xml:space="preserve">
+    <value>Mã {0} đã tồn tại trong hệ thống.</value>
+  </data>
   <data name="Exception_DevMsg" xml:space="preserve">
     <value>Xảy ra ngoại lệ.</value>
   </data>

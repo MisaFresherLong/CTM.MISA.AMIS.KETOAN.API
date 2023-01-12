@@ -8,6 +8,9 @@ namespace MISA.AMIS.KETOAN.Common
 {
     public class EmployeeDetail : Employee
     {
+        /// <summary>
+        /// Tên đơn vị
+        /// </summary>
         public string DepartmentName { get; set; }
     }
 }

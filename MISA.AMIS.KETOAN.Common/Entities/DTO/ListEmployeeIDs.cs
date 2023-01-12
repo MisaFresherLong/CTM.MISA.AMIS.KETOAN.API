@@ -8,6 +8,9 @@ namespace MISA.AMIS.KETOAN.Common
 {
     public class ListEmployeeIDs
     {
+        /// <summary>
+        /// Danh sách ID nhân viên
+        /// </summary>
         public List<Guid> EmployeeIDs { get; set; }
     }
 }

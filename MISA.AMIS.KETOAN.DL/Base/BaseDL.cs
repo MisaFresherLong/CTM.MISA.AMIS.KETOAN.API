@@ -3,6 +3,7 @@ using MISA.AMIS.KETOAN.Common;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -54,9 +55,46 @@ namespace MISA.AMIS.KETOAN.DL
         }
 
         /// <summary>
+        /// Lọc bản ghi theo các tiêu chí
+        /// </summary>
+        /// <param name="filterKey">Các từ khóa cần lọc</param>
+        /// <returns>Danh bản ghi đã được phân trang</returns
+        /// Created by: PVLONG (26/12/2022)
+        public PagingnationResponse<T> GetFilterRecords(FilterKey filterKey)
+        {
+            string className = typeof(T).Name;
+
+            // Chuẩn bị câu lệnh sql
+            string storedProcedure = String.Format(StoredProcedure.GetFilterRecord, className);
+
+            // Chuẩn bị tham số đầu vào
+            var parameters = new DynamicParameters();
+            parameters.Add("@Keyword", filterKey.keyword);
+            parameters.Add("@Limit", filterKey.limit);
+            parameters.Add("@Offset", filterKey.offset);
+            parameters.Add("@TotalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            // Khởi tạo kết nối đến database
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
+            {
+                // Truy vấn database
+                var reader = _connectionLayer.QueryMultiple(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                int totalRecord = reader.Read<int>().FirstOrDefault();
+                // Xử lý và trả về kết quả
+                return new PagingnationResponse<T>()
+                {
+                    TotalPage = (int)Math.Ceiling((double)totalRecord / filterKey.limit),
+                    TotalRecord = totalRecord,
+                    Data = reader.Read<T>().ToList()
+                };
+            }
+        }
+
+        /// <summary>
         /// Lấy một bản ghi theo ID
         /// </summary>
-        /// <param name="recordID"></param>
+        /// <param name="recordID">ID bản ghi cần lấy</param>
         /// <returns>Bản ghi cần lấy</returns>
         /// Created by: PVLONG (26/12/2022)
         public T GetRecordByID(Guid recordID)
@@ -69,6 +107,34 @@ namespace MISA.AMIS.KETOAN.DL
             // Chuẩn bị dữ liệu đầu vào
             var parameters = new DynamicParameters();
             parameters.Add($"@{className}ID", recordID);
+
+            // Khởi tạo kết nối đến database
+            string connectionString = DatabaseContext.ConnectionString;
+            using (var connection = _connectionLayer.InitConnection(connectionString))
+            {
+                // Truy vấn database
+                var record = _connectionLayer.QueryFirstOrDefault<T>(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+                return record;
+            }
+        }
+
+        /// <summary>
+        /// Lấy bản ghi theo mã Code
+        /// </summary>
+        /// <param name="recordCode">mã bản ghi cần lấy</param>
+        /// <returns>Bản ghi cần lấy</returns>
+        /// Created by: PVLONG (26/12/2022)
+        public T GetRecordByCode(String recordCode)
+        {
+            string className = typeof(T).Name;
+
+            // Chuẩn bị câu lệnh sql
+            string storedProcedure = String.Format(StoredProcedure.GetRecordByCode, className);
+
+            // Chuẩn bị dữ liệu đầu vào
+            var parameters = new DynamicParameters();
+            parameters.Add($"@{className}Code", recordCode);
 
             // Khởi tạo kết nối đến database
             string connectionString = DatabaseContext.ConnectionString;

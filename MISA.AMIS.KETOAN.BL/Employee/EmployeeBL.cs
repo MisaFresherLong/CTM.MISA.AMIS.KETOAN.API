@@ -5,6 +5,7 @@ using MySqlConnector;
 using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -43,22 +44,6 @@ namespace MISA.AMIS.KETOAN.BL
         }
 
         /// <summary>
-        /// Lọc nhân viên theo các tiêu chí
-        /// </summary>
-        /// <param name="keyword">Từ khóa cần lọc</param>
-        /// <param name="limit">Số bản ghi cần lấy</param>
-        /// <param name="offset">Nơi bắt đầu lấy</param>
-        /// <returns>Danh sách nhân viên đã được phân trang</returns
-        public Pagingnation<Employee> GetFilterEmployees(
-            string? keyword,
-            int limit,
-            int offset
-        )
-        {
-            return _employeeDL.GetFilterEmployees(keyword, limit, offset); 
-        }
-
-        /// <summary>
         /// Xóa nhiều nhân viên dựa theo danh sách ID
         /// </summary>
         /// <param name="listEmployeeIDs">Danh sách ID của các nhân viên cần xóa/param>
@@ -70,68 +55,58 @@ namespace MISA.AMIS.KETOAN.BL
         }
 
         /// <summary>
-        /// Kiểm tra mã nhân viên đã tồn tại hay chưa
+        /// Validate dữ liệu đầu vào tùy chỉnh cho các lớp kế thừa
         /// </summary>
-        /// <param name="employeeCode">Mã nhân viên</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        /// CreatedBy: PVLONG (26/12/2022)
-        private Boolean IsEmployeeCodeExist(string employeeCode)
+        /// <param name="record"></param>
+        /// <returns>Đối tượng ServiceResponse mô tả thành công hay thất bại</returns>
+        /// Created by: PVLONG (26/12/2022)
+        public override ServiceResponse ValidateCustom(Employee employee)
         {
-            try
-            {
-                // Truy vấn data layer 
-                Employee employee = _employeeDL.GetEmployeeByCode(employeeCode);
+            var errorMessages = new List<string>();
 
-                // Xử lý kết quả
-                if (employee == null)
-                {
-                    // Nếu không tồn tại trả về false
-                    return false;
-                }
-                // Nếu tồn tại trả về true
-                return true;
-            }
-            catch (Exception e)
+            // Lặp qua từng property và kiểm tra attribute
+            var properties = typeof(Employee).GetProperties();
+            foreach (var property in properties)
             {
-                throw new Exception("Kiểm tra mã nhân viên lỗi.", e);
+                var propertyValue = property.GetValue(employee);
+                var propertyName = property.Name;
+
+                // Kiểm tra EmailAddressAttribute
+                var emailAddressAttribute = (EmailAddressAttribute?)Attribute.GetCustomAttribute(property, typeof(EmailAddressAttribute));
+                if (emailAddressAttribute != null &&
+                    !string.IsNullOrEmpty(propertyValue?.ToString()) &&
+                    !emailAddressAttribute.IsValid(propertyValue?.ToString())
+                    )
+                {
+                    // Nếu tồn tại addtribute email và giá trị property không hợp lệ thì thêm lỗi vào danh sách
+                    errorMessages.Add(emailAddressAttribute.ErrorMessage);
+                }
+
+                // Kiểm tra RegularExpressionAttribute
+                var regexAttribute = (RegularExpressionAttribute?)Attribute.GetCustomAttribute(property, typeof(RegularExpressionAttribute));
+                if (regexAttribute != null &&
+                    !string.IsNullOrEmpty(propertyValue?.ToString()) &&
+                    !regexAttribute.IsValid(propertyValue?.ToString())
+                    )
+                {
+                    // Nếu tồn tại attribute regex và giá trị property không hợp lệ thì thêm lỗi vào danh sách
+                    errorMessages.Add(regexAttribute.ErrorMessage);
+                }
+
             }
+            // Nếu có lỗi trả về service response với status invalid
+            if (errorMessages.Count > 0)
+            {
+                return new ServiceResponse
+                {
+                    Status = ServiceResponseStatus.InputDataInvalid,
+                    Data = errorMessages.ToArray()
+                };
+            }
+
+            // Nếu không có lỗi, trả về service response với status thành công
+            return new ServiceResponse { Status = ServiceResponseStatus.Done };
         }
-
-        /// <summary>
-        /// Kiểm tra mã nhân viên có hợp lệ để sửa hay không
-        /// </summary>
-        /// <param name="employeeCode">Mã nhân viên</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        /// CreatedBy: PVLONG (26/12/2022)
-        private Boolean IsEmployeeCodeValid(string employeeCode, Guid employeeID)
-        {
-            try
-            {
-                // Truy vấn data layer 
-                Employee employee = _employeeDL.GetEmployeeByCode(employeeCode);
-
-                // Xử lý kết quả
-                if (employee == null)
-                {
-                    // Nếu mã không tồn tại trả về true
-                    return true;
-                }
-                else if (employee.EmployeeID == employeeID)
-                {
-                    // Nếu mã tồn tại và id trùng khớp trả về true
-                    return true;
-                }
-                // Nếu mã tồn tại và id không trùng khớp trả về false
-                return false;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Kiểm tra mã nhân viên lỗi.", e);
-            }
-        }
-
         #endregion
     }
 }

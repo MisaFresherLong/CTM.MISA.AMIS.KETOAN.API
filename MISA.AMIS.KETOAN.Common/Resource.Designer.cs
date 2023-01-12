@@ -97,6 +97,24 @@ namespace MISA.AMIS.KETOAN.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Code {0} is existed..
+        /// </summary>
+        public static string DuplicateCode_DevMsg {
+            get {
+                return ResourceManager.GetString("DuplicateCode_DevMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mã {0} đã tồn tại trong hệ thống..
+        /// </summary>
+        public static string DuplicateCode_UserMsg {
+            get {
+                return ResourceManager.GetString("DuplicateCode_UserMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Xảy ra ngoại lệ..
         /// </summary>
         public static string Exception_DevMsg {
