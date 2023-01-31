@@ -51,6 +51,6 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// Stored procedure xóa nhiều bản ghi
         /// </summary>
-        public static string DeleteBatch = "Proc_{0}_DeleteBatch";
+        public static string DeleteBatch = "Proc_{0}_DeleteBatchByIDs";
     }
 }

@@ -188,7 +188,7 @@ namespace MISA.AMIS.KETOAN.BL
 
                 // Kiểm tra RequiredAttribute
                 var requiredAttribute = (RequiredAttribute?)Attribute.GetCustomAttribute(property, typeof(RequiredAttribute));
-                if (requiredAttribute != null && string.IsNullOrEmpty(propertyValue?.ToString()))
+                if (requiredAttribute != null && !requiredAttribute.IsValid(propertyValue?.ToString()))
                 {
                     // Nếu tồn tại addtribute required và giá trị property rỗng thì thêm lỗi vào danh sách
                     errorMessages.Add(requiredAttribute.ErrorMessage);

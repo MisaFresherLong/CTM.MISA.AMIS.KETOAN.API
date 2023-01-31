@@ -13,13 +13,13 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// Mã nhân viên
         /// </summary>
-        [Required(ErrorMessage = "EmployeeCode không được bỏ trống")]
+        [Required(ErrorMessage = "Mã nhân viên không được bỏ trống")]
         public string EmployeeCode { get; set; }
 
         /// <summary>
         /// Tên nhân viên
         /// </summary>
-        [Required(ErrorMessage = "EmployeeName không được bỏ trống.")]
+        [Required(ErrorMessage = "Tên nhân viên không được bỏ trống.")]
         public string EmployeeName { get; set; }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace MISA.AMIS.KETOAN.Common
         /// <summary>
         /// ID đơn vị
         /// </summary>
-        [Required(ErrorMessage = "DepartmentID không được bỏ trống.")]
+        [RequiredGuid(ErrorMessage = "Đơn vị không được bỏ trống.")]
         public Guid DepartmentID { get; set; }
 
         /// <summary>
